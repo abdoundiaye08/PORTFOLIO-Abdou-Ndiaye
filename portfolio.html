@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Abdou Ndiaye</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        /* Styles généraux */
+/* Styles généraux */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Barre de navigation */
+.navbar {
+    background: rgba(0, 115, 230, 0.8); /* Bleu avec transparence */
+    backdrop-filter: blur(10px); /* Effet Glassmorphism */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 15px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Logo de la marque */
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff !important;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #d9e4ec !important;
+}
+
+/* Liens de la navigation */
+.navbar-nav .nav-link {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff !important;
+    margin: 0 10px;
+    transition: color 0.3s ease-in-out, transform 0.2s ease;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+/* Effet au survol */
+.navbar-nav .nav-link:hover {
+    color: #ffdd57 !important;
+    transform: translateY(-2px);
+}
+
+/* Lien actif */
+.navbar-nav .nav-link.active {
+    color: #ffdd57 !important;
+    font-weight: bold;
+    border-bottom: 2px solid #ffdd57;
+}
+
+/* Bouton du menu responsive */
+.navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Effet de navbar collante lors du défilement */
+.navbar.scrolled {
+    background: rgba(0, 115, 230, 0.9);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link {
+        display: block;
+        margin: 10px 0;
+        padding: 10px;
+    }
+}
+
+/* Section "À Propos" */
+#about {
+    background: linear-gradient(135deg, #eef2f3, #d9e4ec); /* Dégradé plus doux */
+    padding: 80px 0;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animation de fond (effet de lumière) */
+#about::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.2);
+    top: -50px;
+    left: -50px;
+    border-radius: 50%;
+    filter: blur(100px);
+}
+
+/* Titre de la section */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0073e6;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: "";
+    width: 80px;
+    height: 5px;
+    background: #007bff;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Contenu du texte */
+#about p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.8;
+    text-align: justify;
+    margin: 0 20px;
+}
+
+/* Style de l’image */
+#about img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+#about img:hover {
+    transform: scale(1.08);
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #about .row {
+        flex-direction: column-reverse;
+    }
+
+    .col-md-6 {
+        margin-bottom: 20px;
+    }
+
+    #about img {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+/* Boutons */
+.btn-primary {
+    background-color: #0073e6;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #005bb5;
+    transform: translateY(-3px);
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Ajout d’un effet de carte pour la présentation des compétences */
+.skill-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.skill-card h4 {
+    color: #0073e6;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.skill-card ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.skill-card ul li {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.skill-card ul li i {
+    margin-right: 10px;
+    color: #0073e6;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Abdou Ndiaye</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">À Propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Compétences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-light py-5 text-center animate__animated animate__fadeIn">
+        <div class="container">
+            <h1 class="display-4">Abdou Ndiaye</h1>
+            <p class="lead">Développeur Full Stack & Ingénieur IA</p>
+            <p class="text-muted">Passionné par l'innovation technologique et la création de solutions intelligentes et scalables.</p>
+            <a href="#projects" class="btn btn-primary btn-lg">Voir Mes Projets</a>
+        </div>
+    </section>
+
+    <!-- À Propos Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="section-title animate__animated animate__fadeInLeft">À Propos</h2>
+            <div class="row">
+                <div class="col-md-6 animate__animated animate__fadeInLeft">
+                    <p>
+                        Je suis un ingénieur IA et développeur Full Stack passionné par l'innovation technologique. J'ai travaillé sur des projets ambitieux en utilisant des technologies de pointe pour résoudre des problèmes complexes. Mon objectif est de contribuer à des projets innovants tout en continuant à développer mes compétences dans un environnement stimulant.
+                    </p>
+                    <p>
+                        J'ai une solide expérience en développement logiciel, intelligence artificielle, et gestion de données. Je suis également passionné par l'apprentissage automatique et les systèmes intelligents.
+                    </p>
+                </div>
+                <div class="col-md-6 animate__animated animate__fadeInRight">
+                    <img src="photo1.jpg" alt="Photo de profil" class="img-fluid rounded-circle">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projets Section -->
+    <section id="projects" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title animate__animated animate__fadeIn">Projets</h2>
+            <div class="row">
+                <!-- Projet 1 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1617042375876-a13e36732a04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hhdGJvdHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Chatbot Illustration" class="img-fluid">
+                        <div class="card-body">
+                            <h5 class="card-title">Greffon Moodle d’Agent Conversationnel Empathique</h5>
+                            <p class="card-text">
+                                Conception et développement d’un greffon Moodle utilisant GPT-4 et la méthode RAG pour améliorer l’expérience d’apprentissage en ligne.
+                            </p>
+                            <a href="greffon.html" class="btn btn-primary">Voir le Projet</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Projet 2 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZWR1Y2F0aW9uJTIwZGFzaGJvYXJkfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Learning Dashboard" class="img-fluid">
+                        <div class="card-body">
+                            <h5 class="card-title">Système de Personnalisation d’Apprentissage</h5>
+                            <p class="card-text">
+                                Développement d’un système de personnalisation d’apprentissage utilisant des algorithmes de filtrage collaboratif.
+                            </p>
+                            <a href="sr.html" class="btn btn-primary">Voir le Projet</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Projet 3 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW90JTIwc2Vuc29yc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="IoT Sensors" class="img-fluid">
+                        <div class="card-body">
+                            <h5 class="card-title">Détection d’Anomalies IoT</h5>
+                            <p class="card-text">
+                                Développement d’un modèle LSTM pour la détection d’anomalies dans les données des capteurs IoT en temps réel.
+                            </p>
+                            <a href="anomalie.html" class="btn btn-primary">Voir le Projet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZWR1Y2F0aW9uJTIwZGFzaGJvYXJkfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Learning Dashboard" class="img-fluid">
+                        <div class="card-body">
+                            <h5 class="card-title">Formation sur les usages éducatifs des agents conversationnels basés sur l’IA générative</h5>
+                            <p class="card-text">
+                                Ce projet vise à développer une formation destinée aux formateurs pour les initier aux concepts, aux usages efficaces et éthiques, ainsi qu'aux défis et opportunités liés à l'utilisation de l'intelligence artificielle (IA) générative dans un cadre éducatif.  </p>
+                            <a href="formation.html" class="btn btn-primary">Voir le Projet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compétences Section -->
+    <!-- Compétences Section -->
+    <section id="skills" class="py-5">
+        <div class="container">
+            <h2 class="section-title animate__animated animate__fadeInLeft">Compétences</h2>
+            <div class="row">
+                <!-- Compétences Techniques -->
+                <div class="col-md-6 animate__animated animate__fadeInLeft">
+                    <div class="skill-card">
+                        <h4><i class="fas fa-laptop-code"></i> Techniques</h4>
+                        <ul>
+                            <li><i class="fas fa-code"></i> Python, JavaScript, PHP, C, Node.js, SQL, C++</li>
+                            <li><i class="fas fa-layer-group"></i> ReactJS, Laravel, Flask, Django, ASP.NET MVC</li>
+                            <li><i class="fas fa-cogs"></i> Docker, Kubernetes, Git, CI/CD</li>
+                            <li><i class="fas fa-brain"></i> LSTM, Machine Learning, Data Cleaning, TensorFlow, PyTorch</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Compétences Professionnelles -->
+                <div class="col-md-6 animate__animated animate__fadeInRight">
+                    <div class="skill-card">
+                        <h4><i class="fas fa-user-tie"></i> Professionnelles</h4>
+                        <ul>
+                            <li><i class="fas fa-project-diagram"></i> Gestion de projets</li>
+                            <li><i class="fas fa-users"></i> Travail en équipe</li>
+                            <li><i class="fas fa-puzzle-piece"></i> Résolution de problèmes complexes</li>
+                            <li><i class="fas fa-comments"></i> Communication efficace</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+  <!-- Contact Section -->
+<section id="contact" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center animate__animated" data-animation="animate__fadeIn">Contact</h2>
+        <div class="row">
+            <div class="col-md-6 animate__animated" data-animation="animate__fadeInLeft">
+                <p>Vous pouvez me contacter via :</p>
+                <ul class="list-unstyled">
+                    <li><strong>Email :</strong> <a href="mailto:ndiaye.abdou9@ugb.edu.sn">ndiaye.abdou9@ugb.edu.sn</a></li>
+                    <li><strong>Téléphone :</strong> <a href="tel:+221773979021">+221 77 397 90 21</a></li>
+                    <li><strong>LinkedIn :</strong> <a href="https://www.linkedin.com/in/abdou-ndiaye-775a87233/" target="_blank">Abdou Ndiaye</a></li>
+                    <li><strong>GitHub :</strong> <a href="https://github.com/abdoundiaye08/" target="_blank">github.com/abdoundiaye08/</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 animate__animated" data-animation="animate__fadeInRight">
+                <form id="contactForm" novalidate>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="name" required aria-label="Votre nom">
+                        <div class="invalid-feedback">Veuillez entrer votre nom.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required aria-label="Votre email">
+                        <div class="invalid-feedback">Veuillez entrer un email valide.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" rows="5" required aria-label="Votre message"></textarea>
+                        <div class="invalid-feedback">Veuillez entrer un message.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        Envoyer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center py-4 bg-dark text-light animate__animated" data-animation="animate__fadeInUp">
+    <div class="container">
+        <p>&copy; 2025 Abdou Ndiaye. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<script>
+    emailjs.init("gnNwcIndeKohnRM6B"); // Remplace avec ta vraie clé publique
+</script>
+<!-- Custom JS -->
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    // 📌 Gestion des animations au scroll
+    const sections = document.querySelectorAll(".animate__animated");
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add(entry.target.dataset.animation);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // 📌 Gestion du formulaire avec EmailJS
+    const form = document.getElementById("contactForm");
+    const spinner = form.querySelector(".spinner-border");
+    const submitButton = form.querySelector("button");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (form.checkValidity()) {
+            // Désactiver le bouton et afficher le spinner
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Envoi en cours... <span class="spinner-border spinner-border-sm"></span>';
+
+            // Récupération des valeurs du formulaire
+            const params = {
+                to_name: "Abdou Ndiaye",
+                from_name: document.getElementById("name").value,
+                from_email: document.getElementById("email").value,
+                message: document.getElementById("message").value
+            };
+
+            // 📩 Envoi via EmailJS
+            emailjs.send("service_k6swk8x", "template_z4g2xxy", params)
+                .then(function (response) {
+                    alert("Merci ! Votre message a été envoyé avec succès.");
+                    form.reset();
+                })
+                .catch(function (error) {
+                    console.error("Erreur lors de l'envoi :", error);
+                    alert("Une erreur est survenue, veuillez réessayer.");
+                })
+                .finally(() => {
+                    // Réactivation du bouton et masquage du spinner
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = "Envoyer";
+                });
+        }
+
+        form.classList.add("was-validated");
+    });
+});
+
+</script>
+<script>
+    window.addEventListener("scroll", function () {
+    let navbar = document.querySelector(".navbar");
+    if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+});
+
+</script>
+
+</body>
+</html>

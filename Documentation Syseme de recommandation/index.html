@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation du Projet de Recommandation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Documentation du Projet de Recommandation</h1>
+            <p>Projet de développement d'un modèle de recommandation pour les modules de cours.</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#objectifs">Objectifs</a></li>
+            <li><a href="#methodologie">Méthodologie</a></li>
+            <li><a href="#code">Structure du Code</a></li>
+            <li><a href="#resultats">Résultats</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>Ce projet vise à développer un système de recommandation pour aider les étudiants à choisir les modules de cours les plus adaptés à leurs besoins. Le modèle est basé sur l'algorithme ALS (Alternating Least Squares) et utilise des données d'engagement des étudiants.</p>
+        </section>
+
+        <section id="objectifs">
+            <h2>Objectifs</h2>
+            <ul>
+                <li>Analyser les données d'engagement des étudiants.</li>
+                <li>Construire un modèle de recommandation personnalisé.</li>
+                <li>Évaluer les performances du modèle.</li>
+            </ul>
+        </section>
+
+        <section id="methodologie">
+            <h2>Méthodologie</h2>
+            <h3>Étapes du Projet</h3>
+            <ol>
+                <li>Chargement et nettoyage des données.</li>
+                <li>Feature engineering et création d'un score composite.</li>
+                <li>Entraînement du modèle ALS.</li>
+                <li>Évaluation du modèle avec des métriques comme le RMSE.</li>
+            </ol>
+            <h3>Technologies Utilisées</h3>
+            <ul>
+                <li>PySpark pour le traitement des données.</li>
+                <li>ALS pour le modèle de recommandation.</li>
+                <li>MLflow pour le suivi des expériences.</li>
+            </ul>
+        </section>
+
+        <section id="code">
+            <h2>Structure du Code</h2>
+            <h3>Exemple de Code</h3>
+            
+            <pre><code class="python">
+        from pyspark.sql import SparkSession
+        from pyspark.ml.recommendation import ALS
+        
+        # Initialisation de Spark
+        spark = SparkSession.builder \
+            .appName("CourseModuleRecommender") \
+            .getOrCreate()
+            </code></pre>
+        
+            <div id="moreCode" style="display: none;">
+                <pre><code class="python">
+        # Chargement des données
+        data = spark.read.csv("data.csv", header=True, inferSchema=True)
+        
+        # Entraînement du modèle ALS
+        als = ALS(maxIter=10, regParam=0.01, userCol="userId", itemCol="itemId", ratingCol="rating")
+        model = als.fit(data)
+                </code></pre>
+            </div>
+        
+            <button id="toggleButton">Voir plus</button>
+        </section>
+        
+        <script>
+        document.getElementById("toggleButton").addEventListener("click", function() {
+            var moreCode = document.getElementById("moreCode");
+            if (moreCode.style.display === "none") {
+                moreCode.style.display = "block";
+                this.textContent = "Voir moins";
+            } else {
+                moreCode.style.display = "none";
+                this.textContent = "Voir plus";
+            }
+        });
+        </script>
+        
+        
+        <section id="resultats">
+            <h2>Résultats</h2>
+            <p>Le modèle a atteint un RMSE de 0.85 sur l'ensemble de test. Voici quelques visualisations des résultats :</p>
+            <div class="gallery">
+                <img src="assets/engagement.png" alt="Engagement des étudiants">
+                <img src="assets/recommendations.png" alt="Recommandations">
+            </div>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion</h2>
+            <p>Le modèle de recommandation montre des résultats prometteurs. Les prochaines étapes incluent l'optimisation des hyperparamètres et l'intégration du modèle dans une application web.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projet de Recommandation. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

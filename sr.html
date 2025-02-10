@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Recommandation - Abdou Ndiaye</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* Corps de la page */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* En-tête du projet */
+.project-header {
+    background-color: #0073e6;
+    color: #fff;
+    padding: 80px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.project-header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Contenu du projet */
+.project-content {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-content h2 {
+    color: #0073e6;
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+/* Images */
+.project-content img {
+    border-radius: 12px;
+    margin-bottom: 30px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Conteneur vidéo */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Aspect Ratio 16:9 */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 12px;
+}
+
+/* Bouton primaire */
+.btn-primary {
+    background-color: #0073e6;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Style pour le lien de type bouton secondaire */
+.btn-secondary {
+    background-color: #6c757d;  /* Gris clair */
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 30px;
+    text-decoration: none;  /* Supprimer le soulignement du lien */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;  /* Gris foncé */
+    transform: scale(1.05);
+}
+
+.btn-secondary:active {
+    background-color: #4e555b;  /* Gris encore plus foncé pour l'état actif */
+}
+
+
+.btn-primary:hover {
+    background-color: #005bb5;
+    transform: scale(1.05);
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+    .project-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .project-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .video-container {
+        padding-bottom: 75%; /* 4:3 Aspect Ratio for smaller screens */
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="project-header">
+        <div class="container">
+            <h1>Système de Recommandation</h1>
+            <p class="lead">Un système intelligent pour personnaliser l'apprentissage en ligne</p>
+        </div>
+    </header>
+
+    <!-- Project Content -->
+    <section class="project-content">
+        <div class="container">
+            <!-- Description du Projet -->
+            <div class="row mb-5">
+                <div class="col-md-8">
+                    <h2>Description du Projet</h2>
+                    <p>
+                        Le système de recommandation que j'ai développé utilise des algorithmes de filtrage collaboratif pour personnaliser l'expérience d'apprentissage des utilisateurs. Ce projet a été conçu pour recommander des ressources éducatives adaptées aux besoins et aux préférences de chaque apprenant, en fonction de leurs interactions passées et de leurs résultats.
+                    </p>
+                    <p>
+                        L'objectif principal était d'améliorer l'engagement des apprenants en leur proposant du contenu pertinent et personnalisé, tout en réduisant le temps nécessaire pour trouver des ressources adaptées.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZWR1Y2F0aW9uJTIwZGFzaGJvYXJkfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Tableau de bord éducatif" class="img-fluid">
+                </div>
+            </div>
+
+            <!-- Technologies Utilisées -->
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <h2>Technologies Utilisées</h2>
+                    <ul>
+                        <li><strong>Python</strong> : Pour le développement des algorithmes de recommandation.</li>
+                        <li><strong>Pandas et NumPy</strong> : Pour la manipulation des données.</li>
+                        <li><strong>Scikit-learn</strong> : Pour l'implémentation des modèles de machine learning.</li>
+                        <li><strong>Flask</strong> : Pour la création de l'API du système de recommandation.</li>
+                        <li><strong>ReactJS</strong> : Pour l'interface utilisateur interactive.</li>
+                        <li><strong>MongoDB</strong> : Pour le stockage des données des utilisateurs et des ressources.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Vidéo de Démonstration -->
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <h2>Vidéo de Démonstration</h2>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/video-id" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <p class="text-muted">Remplacez "video-id" par l'ID de votre vidéo YouTube ou utilisez une autre plateforme de vidéo.</p>
+                </div>
+            </div>
+
+            <!-- Résultats et Impact -->
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <h2>Résultats et Impact</h2>
+                    <p>
+                        Le système de recommandation a permis une augmentation significative de l'engagement des apprenants, avec une réduction de 30 % du temps passé à rechercher des ressources. Les utilisateurs ont également rapporté une meilleure satisfaction grâce à la personnalisation des recommandations.
+                    </p>
+                    <p>
+                        Ce projet a été déployé dans un environnement éducatif en ligne et a reçu des retours très positifs de la part des enseignants et des apprenants.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Liens Vers le Projet -->
+            <div class="row mb-5">
+                <div class="col-md-12 text-center">
+                    <h2>Explorez le Projet</h2>
+                    <a href="https://github.com/votre-utilisateur/systeme-recommandation" class="btn btn-primary" target="_blank">Voir le Code sur GitHub</a>
+                    <a href="Documentation Syseme de recommandation/index.html" class="btn btn-secondary" target="_blank">Accéder a la Documentation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2025 Abdou Ndiaye. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
