@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation du Projet de Recommandation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Documentation du Projet de Recommandation</h1>
+            <p>Projet de développement d'un modèle de recommandation pour les modules de cours.</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#objectifs">Objectifs</a></li>
+            <li><a href="#methodologie">Méthodologie</a></li>
+            <li><a href="#code">Structure du Code</a></li>
+            <li><a href="#resultats">Résultats</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>Ce projet vise à développer un système de recommandation pour aider les étudiants à choisir les modules de cours les plus adaptés à leurs besoins. Le modèle est basé sur l'algorithme ALS (Alternating Least Squares) et utilise des données d'engagement des étudiants.</p>
+        </section>
+
+        <section id="objectifs">
+            <h2>Objectifs</h2>
+            <ul>
+                <li>Analyser les données d'engagement des étudiants.</li>
+                <li>Construire un modèle de recommandation personnalisé.</li>
+                <li>Évaluer les performances du modèle.</li>
+            </ul>
+        </section>
+
+        <section id="methodologie">
+            <h2>Méthodologie</h2>
+            <h3>Étapes du Projet</h3>
+            <ol>
+                <li>Chargement et nettoyage des données.</li>
+                <li>Feature engineering et création d'un score composite.</li>
+                <li>Entraînement du modèle ALS.</li>
+                <li>Évaluation du modèle avec des métriques comme le RMSE.</li>
+            </ol>
+            <h3>Technologies Utilisées</h3>
+            <ul>
+                <li>PySpark pour le traitement des données.</li>
+                <li>ALS pour le modèle de recommandation.</li>
+                <li>MLflow pour le suivi des expériences.</li>
+            </ul>
+        </section>
+
+        <section id="code">
+            <h2>Structure du Code</h2>
+            <h3>Exemple de Code</h3>
+            
+            <pre><code class="python">
+        from pyspark.sql import SparkSession
+        from pyspark.ml.recommendation import ALS
+        
+        # Initialisation de Spark
+        spark = SparkSession.builder \
+            .appName("CourseModuleRecommender") \
+            .getOrCreate()
+            </code></pre>
+        
+            <div id="moreCode" style="display: none;">
+                <pre><code class="python">
+                    !pip install pyspark
+                    from pyspark.sql import SparkSession
+                    from pyspark.sql.functions import col,when
+                    from pyspark.ml.recommendation import ALS
+                    from pyspark.ml.evaluation import RegressionEvaluator
+                    from pyspark.ml.linalg import Vectors
+                    from pyspark.sql import functions as F
+                    from pyspark.ml.feature import MinMaxScaler, StringIndexer, VectorAssembler
+                    spark = SparkSession.builder \
+                                        .appName("CourseModuleRecommender") \
+                                        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+                                        .getOrCreate()
+                    # Chargement des données en Spark DataFrames 
+                    assessments = spark.read.csv('/kaggle/input/open-university-learning-analytics-dataset/assessments.csv', header=True, inferSchema=True)
+                    courses = spark.read.csv('/kaggle/input/open-university-learning-analytics-dataset/courses.csv', header=True, inferSchema=True)
+                    student_assessments = spark.read.csv('/kaggle/input/open-university-learning-analytics-dataset/studentAssessment.csv', header=True, inferSchema=True)
+                    student_info = spark.read.csv('/kaggle/input/open-university-learning-analytics-dataset/studentInfo.csv', header=True, inferSchema=True)
+                    registration = spark.read.csv('/kaggle/input/open-university-learning-analytics-dataset/studentRegistration.csv', header=True, inferSchema=True)
+                    student_vle = spark.read.csv('/kaggle/input/open-university-learning-analytics-dataset/studentVle.csv', header=True, inferSchema=True)
+                    vle = spark.read.csv('/kaggle/input/open-university-learning-analytics-dataset/vle.csv', header=True, inferSchema=True)
+                    # Fusionner student_info et registration pour ajouter la date d'inscription de chaque étudiant
+                    student_df = student_info.join(registration, on=["code_module", "code_presentation", "id_student"], how="inner") \
+                                             .drop("date_unregistration")
+                    # Fonction pour afficher les informations sur un DataFrame
+                    def display_dataset_info(df, name):
+                        print(f"Dataset: {name}")
+                        print(f"Taille: {df.count()} lignes, {len(df.columns)} colonnes")
+                        print("Schéma:")
+                        df.printSchema()
+                        print("Premières lignes:")
+                        df.show(3)
+                        print("-" * 50)
+                    
+                    # Afficher les informations pour chaque DataFrame
+                    display_dataset_info(courses, "Courses")
+                    display_dataset_info(student_info, "Student Info")
+                    display_dataset_info(registration, "Student Registration")
+                    display_dataset_info(student_vle, "Student VLE")
+                    display_dataset_info(vle, "VLE")
+                    
+                    # Calculer des métriques d'engagement à partir de student_vle
+                    svle = student_vle.groupBy("code_module", "code_presentation", "id_student") \
+                                      .agg(
+                                          {"sum_click": "mean", "sum_click": "sum", "date": "count", "id_site": "count"}
+                                      ).withColumnRenamed("avg(sum_click)", "mean_sum_click") \
+                                       .withColumnRenamed("sum(sum_click)", "total_sum_click") \
+                                       .withColumnRenamed("count(date)", "days_logged") \
+                                       .withColumnRenamed("count(id_site)", "material_interactions")
+                    # Joindre les données des cours pour obtenir la durée du module
+                    svle = svle.join(courses, on=["code_module", "code_presentation"], how="left")
+                    svle = svle.withColumn("avg_click_per_day", col("total_sum_click") / col("module_presentation_length"))
+                    # Calcul du pourcentage d'interactions avec le matériel
+                    vle_n = vle.groupBy("code_module", "code_presentation").count().withColumnRenamed("count", "total_material_count")
+                    svle = svle.join(vle_n, on=["code_module", "code_presentation"], how="left")
+                    svle = svle.withColumn("material_interaction_percentage", 100 * col("material_interactions") / col("total_material_count"))
+                    # Ajouter les résultats finaux et autres informations d'étudiant
+                    df_all = svle.join(student_df, on=["code_module", "code_presentation", "id_student"], how="inner")
+                    # Mapping des données catégorielles
+                    mapping_dict_FR = {'Pass': 1, 'Distinction': 1, 'Fail': 0}
+                    mapping_dict_disability = {'N': 0, 'Y': 1}
+                    mapping_dict_gender = {'M': 0, 'F': 1}
+                    mapping_dict_age = {'0-35': 0, '35-55': 1, '55<=': 2}
+                    percentage_mapping = {
+                        '90-100%': 9, '80-90%': 8, '70-80%': 7, '60-70%': 6,
+                        '50-60%': 5, '40-50%': 4, '30-40%': 3, '20-30%': 2,
+                        '10-20%': 1, '0-10%': 0
+                    }
+                    qualification_mapping = {
+                        'HE Qualification': 4, 'A Level or Equivalent': 3,
+                        'Lower Than A Level': 2, 'Post Graduate Qualification': 5,
+                        'No Formal quals': 1
+                    }
+                    
+                    # Appliquer les mappings avec des conditions when
+                    df_all = df_all.withColumn("final_result", 
+                                               when(col("final_result") == "Pass", 1)
+                                               .when(col("final_result") == "Distinction", 1)
+                                               .when(col("final_result") == "Fail", 0)
+                                               .otherwise(col("final_result")))
+                    
+                    df_all = df_all.withColumn("disability", 
+                                               when(col("disability") == "Y", 1)
+                                               .when(col("disability") == "N", 0)
+                                               .otherwise(col("disability")))
+                    
+                    df_all = df_all.withColumn("gender", 
+                                               when(col("gender") == "M", 0)
+                                               .when(col("gender") == "F", 1)
+                                               .otherwise(col("gender")))
+                    
+                    df_all = df_all.withColumn("age_band", 
+                                               when(col("age_band") == "0-35", 0)
+                                               .when(col("age_band") == "35-55", 1)
+                                               .when(col("age_band") == "55<=", 2)
+                                               .otherwise(col("age_band")))
+                    
+                    df_all = df_all.withColumn("imd_band", 
+                                               when(col("imd_band") == "90-100%", 9)
+                                               .when(col("imd_band") == "80-90%", 8)
+                                               .when(col("imd_band") == "70-80%", 7)
+                                               .when(col("imd_band") == "60-70%", 6)
+                                               .when(col("imd_band") == "50-60%", 5)
+                                               .when(col("imd_band") == "40-50%", 4)
+                                               .when(col("imd_band") == "30-40%", 3)
+                                               .when(col("imd_band") == "20-30%", 2)
+                                               .when(col("imd_band") == "10-20%", 1)
+                                               .when(col("imd_band") == "0-10%", 0)
+                                               .otherwise(col("imd_band")))
+                    
+                    df_all = df_all.withColumn("highest_education", 
+                                               when(col("highest_education") == "HE Qualification", 4)
+                                               .when(col("highest_education") == "A Level or Equivalent", 3)
+                                               .when(col("highest_education") == "Lower Than A Level", 2)
+                                               .when(col("highest_education") == "Post Graduate Qualification", 5)
+                                               .when(col("highest_education") == "No Formal quals", 1)
+                                               .otherwise(col("highest_education")))
+                    df_all.show(5,truncate=True)
+                    # Calculer un score composite
+                    df_all = df_all.withColumn("composite_score",
+                                               0.5 * col("total_sum_click") +
+                                               0.3 * col("days_logged") +
+                                               0.1 * col("material_interactions") +
+                                               0.1 * col("final_result"))
+                    # Supprimer les lignes contenant des valeurs NULL
+                    df_clean = df_all.dropna(subset=["composite_score"])
+                    # Créer un indexeur pour transformer les codes de module en entiers
+                    indexer = StringIndexer(inputCol="code_module", outputCol="itemId_indexed")
+                    
+                    # Appliquer l'indexeur
+                    df_all = indexer.fit(df_clean).transform(df_clean)
+                    
+                    # Sélectionner les colonnes nécessaires avec l'itemId transformé en entier
+                    als_data = df_all.select(
+                        F.col("id_student").alias("userId").cast("int"),
+                        F.col("itemId_indexed").alias("itemId"),  # L'itemId devient un entier
+                        F.col("composite_score").alias("rating")
+                    )
+                    als_data.show(50, truncate=True)
+                    als_data.count()
+                    # Normaliser le score composite entre 0 et 1
+                    min_score = als_data.agg(F.min("rating")).collect()[0][0]
+                    max_score = als_data.agg(F.max("rating")).collect()[0][0]
+                    als_data = als_data.withColumn("rating", (F.col("rating") - min_score) / (max_score - min_score))
+                    als_data.show(5)
+                    # Configuration l'algorithme ALS
+                    als = ALS(
+                        maxIter=15,            
+                        regParam=0.05,  
+                        rank=10,
+                        userCol="userId",   
+                        itemCol="itemId",  
+                        ratingCol="rating",     
+                        coldStartStrategy="drop",  
+                        nonnegative=True        
+                    )
+                    # Diviser les données en ensemble d'entraînement et de test
+                    train_data, test_data = als_data.randomSplit([0.8, 0.2])
+                    # Entraîner le modèle
+                    model = als.fit(train_data)
+                    # Faire des prédictions sur les données de test
+                    predictions = model.transform(test_data)
+                    
+                    # Évaluer le modèle avec RMSE
+                    evaluator = RegressionEvaluator(
+                        metricName="rmse", 
+                        labelCol="rating", 
+                        predictionCol="prediction"
+                    )
+                    rmse = evaluator.evaluate(predictions)
+                    print(f"Root-mean-square error = {rmse}")
+                    mae_evaluator = RegressionEvaluator(metricName="mae", labelCol="rating", predictionCol="prediction")
+                    mae = mae_evaluator.evaluate(predictions)
+                    print(f"Mean Absolute Error = {mae}")
+                    # Générer des recommandations pour tous les utilisateurs
+                    user_recommendations = model.recommendForAllUsers(5)  # Recommander 5 modules par étudiant
+                    user_recommendations.show(10, truncate=False)
+                    # Enregistrement du modèle
+                    model.save("/kaggle/working/als_model")
+                    import shutil
+                    
+                    # Compresser le dossier en un fichier ZIP
+                    shutil.make_archive("/kaggle/working/als_model", 'zip', "model")
+                    
+                </code></pre>
+            </div>
+        
+            <button id="toggleButton">Voir plus</button>
+        </section>
+        
+        <script>
+        document.getElementById("toggleButton").addEventListener("click", function() {
+            var moreCode = document.getElementById("moreCode");
+            if (moreCode.style.display === "none") {
+                moreCode.style.display = "block";
+                this.textContent = "Voir moins";
+            } else {
+                moreCode.style.display = "none";
+                this.textContent = "Voir plus";
+            }
+        });
+        </script>
+        
+        
+        <section id="resultats">
+            <h2>Résultats</h2>
+            <p>Le modèle a atteint un RMSE de 0.06 sur l'ensemble de test. Voici quelques visualisations des résultats :</p>
+            <div class="gallery">
+                <img src="assets/engagement.png" alt="Engagement des étudiants">
+                <img src="assets/recommendations.png" alt="Recommandations">
+            </div>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion</h2>
+            <p>Le modèle de recommandation montre des résultats prometteurs. Les prochaines étapes incluent l'optimisation des hyperparamètres et l'hybridation avec un modele baser sur le contenu .</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projet de Recommandation. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
